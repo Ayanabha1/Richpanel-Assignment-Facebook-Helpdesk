@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 backend/.serverless
+**/.env
+
 backend/.env*
 
 
