@@ -1,0 +1,32 @@
+service: meetup
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+functions:
+  # Lambda functions to handle auth routes
+  createUser:
+    handler: src/Handlers/AuthHandlers/createUser.handler
+    events:
+      - httpApi:
+          path: /api/v1/auth/signup
+          method: POST
+  login:
+    handler: src/Handlers/AuthHandlers/login.handler
+    events:
+      - httpApi:
+          path: /api/v1/auth/login
+          method: POST
+  getUser:
+    handler: src/Handlers/AuthHandlers/getUser.handler
+    events:
+      - httpApi:
+          path: /api/v1/auth/get-user
+          method: GET
