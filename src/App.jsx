@@ -1,35 +1,109 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import FBConnectPage from "./components/FBConnectPage";
+import { useEffect } from "react";
+import { Api, resetApiHeaders } from "./Api/Axios";
+import { showError } from "./lib/utils";
+import { useAuth } from "./hooks/auth";
+import Landing from "./components/Landing";
+import CustomRouteLayout from "./components/CustomRoute/CustomRouteLayout";
+import CustomRoute from "./components/CustomRoute/CustomRoute";
+import Loader from "./components/Loader";
+import { useLoader } from "./hooks/loader";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const auth = useAuth();
+  const loader = useLoader();
+  const navigate = useNavigate();
+  const logoutFunc = () => {
+    console.log("Logout");
+    resetApiHeaders();
+    localStorage.removeItem("AUTH_TOKEN");
+    localStorage.removeItem("FB_ACCESS_TOKEN");
+    localStorage.removeItem("FB_PAGE_DETAILS");
+    auth.setUserData({});
+    auth.setLoggedIn(false);
+    navigate("/login");
+  };
+
+  const getUser = async () => {
+    auth.setInitialised();
+    const token = localStorage.getItem("AUTH_TOKEN");
+    if (token === "" || token === undefined || token === null) {
+      return;
+    }
+    loader.setLoading(true);
+    await Api.get("/auth/get-user")
+      .then((res) => {
+        const userData = res.data.user;
+        auth.setInitialised();
+        auth.setUserData(userData);
+        auth.setLoggedIn(true);
+        resetApiHeaders(token);
+      })
+      .catch((err) => {
+        loader.setLoading(false);
+        auth.setInitialised();
+        showError("Session timed out");
+        logoutFunc();
+      });
+    loader.setLoading(false);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Routes>
+        <Route element={<CustomRouteLayout />}>
+          <Route
+            path="/"
+            element={
+              <CustomRoute
+                element={<Landing />}
+                visibleToAuthenticatedUser={false}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <CustomRoute
+                element={<Login />}
+                visibleToAuthenticatedUser={false}
+              />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <CustomRoute
+                element={<Signup />}
+                visibleToAuthenticatedUser={false}
+              />
+            }
+          />
+          <Route
+            path="/connect-page"
+            element={
+              <CustomRoute
+                element={<FBConnectPage />}
+                visibleToUnauthenticatedUser={false}
+              />
+            }
+          />
+        </Route>
+      </Routes>
+      <ToastContainer position="bottom-center" stacked />
+      {loader.loading ? <Loader /> : null}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
