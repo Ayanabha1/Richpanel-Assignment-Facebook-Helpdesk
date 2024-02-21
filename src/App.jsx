@@ -14,21 +14,14 @@ import CustomRouteLayout from "./components/CustomRoute/CustomRouteLayout";
 import CustomRoute from "./components/CustomRoute/CustomRoute";
 import Loader from "./components/Loader";
 import { useLoader } from "./hooks/loader";
+import Helpdesk from "./components/Helpdesk";
+import ChatPortal from "./components/ChatPortal";
+import ManagePage from "./components/ManagePage";
 
 function App() {
   const auth = useAuth();
   const loader = useLoader();
   const navigate = useNavigate();
-  const logoutFunc = () => {
-    console.log("Logout");
-    resetApiHeaders();
-    localStorage.removeItem("AUTH_TOKEN");
-    localStorage.removeItem("FB_ACCESS_TOKEN");
-    localStorage.removeItem("FB_PAGE_DETAILS");
-    auth.setUserData({});
-    auth.setLoggedIn(false);
-    navigate("/login");
-  };
 
   const getUser = async () => {
     auth.setInitialised();
@@ -49,7 +42,7 @@ function App() {
         loader.setLoading(false);
         auth.setInitialised();
         showError("Session timed out");
-        logoutFunc();
+        auth.logout();
       });
     loader.setLoading(false);
   };
@@ -98,6 +91,20 @@ function App() {
               />
             }
           />
+
+          <Route
+            path="/helpdesk"
+            element={
+              <CustomRoute
+                element={<Helpdesk />}
+                visibleToUnauthenticatedUser={false}
+              />
+            }
+          >
+            <Route index element={<ChatPortal />} />
+            <Route path="manage-page" element={<ManagePage />} />
+            <Route path="*" element={<ChatPortal />} />
+          </Route>
         </Route>
       </Routes>
       <ToastContainer position="bottom-center" stacked />

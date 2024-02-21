@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/auth";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { GraphApi } from "../Api/Axios";
 import { showError, showSuccess } from "../lib/utils";
+import { Link } from "react-router-dom";
 const FBConnectPage = () => {
   const [loading, setLoading] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -22,7 +23,11 @@ const FBConnectPage = () => {
       const pageObj = {
         name: res?.data?.data[0]?.name,
         id: res?.data?.data[0]?.id,
+        pageAccessToken: res?.data?.data[0]?.access_token,
       };
+
+      localStorage.setItem("FB_PAGE_ID", pageObj?.id);
+      localStorage.setItem("FB_PAGE_ACCESS_TOKEN", pageObj.pageAccessToken);
       localStorage.setItem("FB_PAGE_DETAILS", JSON.stringify(pageObj));
       showSuccess(`Connected to Facebook page ${pageObj?.name}`);
       setIsConnected(true);
@@ -30,6 +35,8 @@ const FBConnectPage = () => {
       setLoading(false);
       showError("Could not connect to the Facebook page");
       localStorage.removeItem("FB_ACCESS_TOKEN");
+      localStorage.removeItem("FB_PAGE_ACCESS_TOKEN");
+      localStorage.removeItem("FB_PAGE_ID");
     }
     setLoading(false);
   };
@@ -46,6 +53,8 @@ const FBConnectPage = () => {
       setLoading(false);
       showError("Could not connect to the Facebook page");
       localStorage.removeItem("FB_ACCESS_TOKEN");
+      localStorage.removeItem("FB_PAGE_ACCESS_TOKEN");
+      localStorage.removeItem("FB_PAGE_ID");
     }
     setLoading(false);
   };
@@ -54,6 +63,8 @@ const FBConnectPage = () => {
     setLoading(true);
     localStorage.removeItem("FB_PAGE_DETAILS");
     localStorage.removeItem("FB_ACCESS_TOKEN");
+    localStorage.removeItem("FB_PAGE_ACCESS_TOKEN");
+    localStorage.removeItem("FB_PAGE_ID");
     setIsConnected(false);
     setLoading(false);
   };
@@ -90,7 +101,9 @@ const FBConnectPage = () => {
                 >
                   Delete Integration
                 </Button>
-                <Button>Reply To Messages</Button>
+                <Link className="w-full" to="/helpdesk">
+                  <Button className="w-full">Reply To Messages</Button>
+                </Link>
               </div>
             </>
           ) : (
