@@ -1,4 +1,4 @@
-service: meetup
+service: "richpanelassessment"
 frameworkVersion: "3"
 
 provider:
@@ -30,3 +30,35 @@ functions:
       - httpApi:
           path: /api/v1/auth/get-user
           method: GET
+
+  # Handlers for facebook api calls and webhooks
+  sendMessage:
+    handler: src/Handlers/FacebookApiHandlers/sendMessage.handler
+    events:
+      - httpApi:
+          path: /api/v1/fb/sendMessage
+          method: POST
+
+  receiveMessage:
+    handler: src/Handlers/FacebookApiHandlers/receivemessageWebhook.handler
+    events:
+      - httpApi:
+          path: /webhook/receiveMessage
+          method: POST
+
+  receiveMessageCheck:
+    handler: src/Handlers/FacebookApiHandlers/receivemessageWebhookCheck.handler
+    events:
+      - httpApi:
+          path: /webhook/receiveMessage
+          method: GET
+
+  websocketHandler:
+    handler: src/Handlers/WebsocketHandler/websocketHandler.handler
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+      - websocket:
+          route: $default

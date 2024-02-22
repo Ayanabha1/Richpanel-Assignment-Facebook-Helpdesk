@@ -1,16 +1,17 @@
 {
-  "name": "meetup-backend",
+  "name": "richpanel-assessment-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app",
+    "start": "serverless offline --noTimeout",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "serverless deploy"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1563.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
