@@ -83,6 +83,7 @@ const FBConnectPage = () => {
   };
 
   useEffect(() => {
+    document.title = "Connect Page - Richpanel Assessment";
     checkPageConnected();
   }, []);
 

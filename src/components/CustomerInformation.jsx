@@ -5,30 +5,18 @@ import { PhoneCall, User } from "lucide-react";
 import Card from "./CommonComponents/Card";
 import { showError } from "../lib/utils";
 import { GraphApi } from "../Api/Axios";
-const CustomerInformation = ({ sender }) => {
+const CustomerInformation = ({ chat }) => {
   const [data, setData] = useState({});
-  //   const getProfileData = async () => {
-  //     try {
-  //       const pageAccessToken = localStorage.getItem("FB_PAGE_ACCESS_TOKEN");
-  //       if (!pageAccessToken || pageAccessToken === "") {
-  //         throw new Error(
-  //           "User access token not found ... please try connecting to a facebook page"
-  //         );
-  //       }
-  //       const res = await GraphApi.get(`/${sender?.id}`, {
-  //         params: {
-  //           access_token: pageAccessToken,
-  //         },
-  //         fields: "first_name,last_name,picture,email",
-  //       });
-  //       setData(res?.data);
-  //     } catch (error) {
-  //       showError("Could not fetch profile information");
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     getProfileData();
-  //   }, []);
+  const getClientInfo = () => {
+    const profileId = localStorage.getItem("FB_PAGE_ID");
+    let senderChats = chat?.filter((c) => c?.sender?.id !== profileId);
+    let __sender = senderChats[0]?.sender;
+    setData(__sender);
+  };
+
+  useEffect(() => {
+    getClientInfo();
+  }, [chat]);
 
   return (
     <div className="flex flex-col w-full h-full border-l">
@@ -38,7 +26,7 @@ const CustomerInformation = ({ sender }) => {
           alt="User"
           className="w-20 h-20 items-center"
         />
-        <h1 className="text-xl font-medium mt-3">{sender?.name}</h1>
+        <h1 className="text-xl font-medium mt-3">{data?.name}</h1>
         <div className="flex items-center gap-2 opacity-60">
           <div className="h-2 w-2 bg-black rounded-full"></div>
           <span>Offilne</span>
@@ -70,20 +58,16 @@ const CustomerInformation = ({ sender }) => {
               </div>
               <div className="flex w-full justify-between gap-2">
                 <span className="opacity-60">First Name</span>
-                <span className="font-medium">
-                  {sender?.name?.split(" ")[0]}
-                </span>
+                <span className="font-medium">{data?.name?.split(" ")[0]}</span>
               </div>
               <div className="flex w-full justify-between gap-2">
                 <span className="opacity-60">Last Name</span>
-                <span className="font-medium">
-                  {sender?.name?.split(" ")[1]}
-                </span>
+                <span className="font-medium">{data?.name?.split(" ")[1]}</span>
               </div>
             </div>
             <a
               target="_blank"
-              href={`https://facebook.com/${sender?.id}`}
+              href={`https://facebook.com/${data?.id}`}
               className="mt-4 text-[#2E6797] text-lg font-medium"
             >
               View more details

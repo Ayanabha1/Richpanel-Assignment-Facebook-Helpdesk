@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatPortal from "./ChatPortal";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
@@ -8,6 +8,10 @@ const emptyConversation = () => {};
 
 const Helpdesk = () => {
   const [chat, SetChat] = useState([]);
+  useEffect(() => {
+    document.title = "Helpdesk - Richpanel Assessment";
+  }, []);
+
   return (
     <div className="flex h-[100vh] w-[100vw]">
       {/* Sidebar navigation */}

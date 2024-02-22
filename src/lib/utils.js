@@ -27,8 +27,8 @@ export const showError = (message) => {
 
 export const getTime = (timeStamp) => {
   const date = new Date(timeStamp);
-  let hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes();
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
   const ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12;
   hours = hours ? hours : 12;
