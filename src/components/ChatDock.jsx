@@ -106,11 +106,11 @@ const ChatDock = ({ chat, updateChat }) => {
       setLoading(false);
       showError(error?.response?.data?.message);
     }
-    handleShowBtnClick();
+    goToBottomOfTheChat();
     setLoading(false);
   };
 
-  const handleShowBtnClick = () => {
+  const goToBottomOfTheChat = () => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current?.scrollHeight;
       setShowDonwBtn(false);
@@ -158,8 +158,9 @@ const ChatDock = ({ chat, updateChat }) => {
   };
 
   useEffect(() => {
+    goToBottomOfTheChat();
     getGroupedMessages();
-  }, [chat, chat?.version]);
+  }, [chat]);
 
   return (
     <div className="flex flex-col w-[60%] relative bg-[#F6F6F6]">
@@ -175,14 +176,6 @@ const ChatDock = ({ chat, updateChat }) => {
         ref={chatBoxRef}
         className="flex flex-col items-start gap-2 pb-20 relative  p-3 overflow-scroll h-[80%]"
       >
-        <button
-          onClick={handleShowBtnClick}
-          className={`fixed left-[50%] translate-x-[-50%] bottom-[80px] rounded-full shadow-[1px_1px_5px_rgba(0,0,0,0.5)] bg-white bg-opacity-50 transition-all duration-300 flex items-center justify-center active:shadow-none ${
-            showDonwBtn ? "h-8 w-8 opacity-100" : "h-0 w-0 opacity-50"
-          } `}
-        >
-          <ChevronDown color="rgba(0,0,0,0.6)" />
-        </button>
         {messages?.map((data, i) => {
           if (data?.senderId === pageId) {
             return <SelfMessage key={i} chat={data} />;

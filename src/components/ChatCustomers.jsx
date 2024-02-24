@@ -1,4 +1,13 @@
 import { getDuration } from "../lib/utils";
+import Conversation from "../assets/conversation.jpg";
+const EmptyChat = () => {
+  return (
+    <div className="flex flex-col items-center justify-center h-[80%] opacity-60">
+      <img src={Conversation} alt="Empty conversation" className="h-32 w-32" />
+      <span>No conversation has started yet.</span>
+    </div>
+  );
+};
 
 const ChatCustomers = ({ chats, selectAChat }) => {
   const getLastMessageTime = (chat) => {
@@ -11,6 +20,9 @@ const ChatCustomers = ({ chats, selectAChat }) => {
     return lastMessage;
   };
 
+  if (chats.length === 0) {
+    return <EmptyChat />;
+  }
   return (
     <div className="flex flex-col items-start">
       {chats?.map((chat, i) => {

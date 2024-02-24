@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, version } from "react";
 import { Menu, RotateCw, SendHorizontal, ChevronDown } from "lucide-react";
 
 import { Api, GraphApi } from "../Api/Axios";
@@ -33,37 +33,70 @@ const ChatPortal = () => {
       chat.client = clientDetails;
       return chat;
     } catch (error) {
+      const errorCode = error?.response?.data?.error?.code;
+      if (errorCode === 190) {
+        showError("Access token expired ... please reconnect to facebook page");
+        return;
+      }
       showError(error?.message);
     }
   };
 
-  const updateChat = (clientId, senderId, message) => {
-    console.log("Updating chat");
-
+  const getLatestChatsValue = () => {
     const __chats = chats;
-    console.log(__chats);
-    let targetChat;
-    __chats?.forEach((c) => {
+    return __chats;
+  };
+
+  const updateChat = async (clientId, senderId, message) => {
+    let chatExists = false;
+    const updatedChats = chats?.map((c) => {
       if (c.clientId === clientId) {
-        c.messages.push({
-          senderId: senderId,
-          message: message,
-          time: Date.now(),
-        });
-        targetChat = c;
-        targetChat.version = Date.now();
+        chatExists = true;
+        const updatedChat = {
+          ...c,
+          messages: [
+            ...c.messages,
+            {
+              senderId: senderId,
+              message: message,
+              time: Date.now(),
+            },
+          ],
+        };
+        if (updatedChat.clientId === selectedChat?.clientId) {
+          setSelectedChat(updatedChat);
+        }
+        return updatedChat;
       }
+      return c;
     });
-    console.log(__chats);
-    if (targetChat.clientId === selectedChat.clientId) {
-      setSelectedChat(targetChat);
+
+    // If chat does not exist create one
+    if (chatExists) {
+      setChats(updatedChats);
+    } else {
+      const newChat = {
+        clientId: clientId,
+        senderId: clientId,
+        messages: [
+          {
+            senderId: senderId,
+            message: message,
+            time: Date.now(),
+          },
+        ],
+      };
+
+      // console.log(newChat);
+      const newChatWithDetails = await getClientDetails(newChat);
+      // console.log(newChatWithDetails);
+      setChats((prev) => [...prev, newChatWithDetails]);
     }
-    setChats([]);
   };
 
   const getAllMessages = async () => {
+    loader.setLoading(true);
     try {
-      loader.setLoading(true);
       const pageDetails = localStorage.getItem("FB_PAGE_DETAILS");
       const pageDetailsParsed = JSON.parse(pageDetails ? pageDetails : "{}");
       if (!pageDetailsParsed.id) {
@@ -74,7 +107,6 @@ const ChatPortal = () => {
       });
 
       const allChats = res.data.messages;
-
       // Fetch client details for each sender
       const allChatsNamedPromises = allChats?.map((chat) => {
         return getClientDetails(chat);
@@ -82,7 +114,6 @@ const ChatPortal = () => {
 
       const __chats = await Promise.all(allChatsNamedPromises);
       setChats(__chats);
-      // console.log(__chats);
     } catch (error) {
       loader.setLoading(false);
       showError(error?.message);
@@ -121,12 +152,16 @@ const ChatPortal = () => {
       socketRef.current.onopen = () => {
         joinChat(pageId);
       };
-      socketRef.current.onmessage = (res) => {
-        const payload = JSON.parse(res.data);
-        handleReceiveMessage(payload);
-      };
     }
   };
+
+  if (socketRef.current) {
+    socketRef.current.onmessage = (res) => {
+      const payload = JSON.parse(res.data);
+      handleReceiveMessage(payload);
+      const __chats = getLatestChatsValue();
+    };
+  }
 
   useEffect(() => {
     if (!socketRef.current) {
