@@ -16,6 +16,7 @@ module.exports.handler = async (event, context) => {
       console.log(challenge);
       if (token && token === verifyToken) {
         // Respond with the challenge token from the request
+
         console.log("WEBHOOK_VERIFIED");
         return {
           statusCode: 200,
@@ -23,6 +24,7 @@ module.exports.handler = async (event, context) => {
         };
       }
     }
+
     return sendError(403, { message: "error" });
   } catch (error) {
     return sendError(error?.statusCode, error);

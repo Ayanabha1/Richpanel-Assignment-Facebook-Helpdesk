@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
-import ChatPortal from "./ChatPortal";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import CustomerInformation from "./CustomerInformation";
-
-const emptyConversation = () => {};
+import { useNavigate } from "react-router-dom";
 
 const Helpdesk = () => {
-  const [chat, SetChat] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     document.title = "Helpdesk - Richpanel Assessment";
+    const pageDetails = localStorage.getItem("FB_PAGE_DETAILS");
+    if (!pageDetails || pageDetails === "") {
+      navigate("/connect-page");
+    } else {
+      const pageDetailsParsed = JSON.parse(pageDetails);
+      if (!pageDetailsParsed?.id) {
+        navigate("/connect-page");
+      }
+    }
   }, []);
 
   return (

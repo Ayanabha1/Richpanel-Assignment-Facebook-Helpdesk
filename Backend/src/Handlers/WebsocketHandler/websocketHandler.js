@@ -2,12 +2,12 @@ const { sendError, sendResponse } = require("../../Utils/response");
 const connectToDatabase = require("../../Database/db");
 const Connections = require("../../Models/Connections");
 
-const joinChat = async (senderId, connectionId) => {
+const joinChat = async (pageId, connectionId) => {
   try {
     const db = await connectToDatabase();
     console.log("Hello");
     const newConnection = new Connections({
-      userId: senderId,
+      pageId: pageId,
       connectionId: connectionId,
     });
     console.log(newConnection);
@@ -26,13 +26,15 @@ module.exports.handler = async (event, context) => {
     console.log(`New connection : ${connectionId}`);
   } else {
     const payload = JSON.parse(event.body);
-    switch (payload.action) {
-      case "join-chat":
-        await joinChat(payload?.sender, connectionId);
-        break;
+    if (payload) {
+      switch (payload.action) {
+        case "join-chat":
+          await joinChat(payload?.pageId, connectionId);
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
   }
   return sendResponse({ message: "Hello from lambda function" });

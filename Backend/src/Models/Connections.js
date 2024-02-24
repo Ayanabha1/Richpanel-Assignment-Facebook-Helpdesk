@@ -2,14 +2,17 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const ConnectionSchema = new Schema({
-  userId: {
-    type: String,
-    require: true,
-  },
   connectionId: {
     type: String,
     require: true,
-    unique: true,
+  },
+  pageId: {
+    type: String,
+    require: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

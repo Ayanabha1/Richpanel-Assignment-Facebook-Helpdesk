@@ -2,14 +2,25 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const MessageSchema = new Schema({
-  name: {
+  clientId: {
     type: String,
+    require: true,
   },
-  psid: {
+  pageId: {
     type: String,
+    require: true,
   },
   message: {
     type: String,
+    require: true,
+  },
+  senderId: {
+    type: String,
+    require: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

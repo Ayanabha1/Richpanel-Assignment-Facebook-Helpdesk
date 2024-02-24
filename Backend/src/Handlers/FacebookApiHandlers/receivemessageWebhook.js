@@ -1,22 +1,28 @@
 const connectToDatabase = require("../../Database/db");
 const Connections = require("../../Models/Connections");
+const Message = require("../../Models/Message");
 const userModel = require("../../Models/User");
 const { sendError, sendResponse } = require("../../Utils/response");
-const endpoint = process.env.AWS_API_ENDPOINT;
 const AWS = require("aws-sdk");
+const endpoint = process.env.AWS_API_ENDPOINT;
 
 const gatewayClient = new AWS.ApiGatewayManagementApi({
   apiVersion: "2018-11-29",
   endpoint,
 });
 
-const sendToConnection = async (payload) => {
+const sendToConnection = async (senderId, pageId, message) => {
   try {
     const db = await connectToDatabase();
-    const connectionId = await Connections.find({ userId: payload?.sender?.id })
-      .sort({ _id: -1 })
-      .limit(1);
-    console.log(connectionId);
+    const data = await Connections.find({ pageId: pageId }).sort({
+      created_at: -1,
+    });
+
+    const payload = { senderId, pageId, message, created_at: Date.now() };
+    const connection = data[0];
+    const connectionId = connection?.connectionId;
+    console.log(connection);
+
     return gatewayClient
       .postToConnection({
         ConnectionId: connectionId,
@@ -24,41 +30,42 @@ const sendToConnection = async (payload) => {
       })
       .promise();
   } catch (err) {
+    console.log("ERROR", err);
     return err;
   }
 };
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
+  console.log("WEBHOOK CALLED");
 
   try {
+    const db = await connectToDatabase();
     const body = JSON.parse(event.body);
+    if (body?.entry) {
+      const entry = body?.entry[0];
+      const senderId = entry?.messaging[0]?.sender?.id;
+      const pageId = entry?.messaging[0]?.recipient?.id;
+      const message = entry?.messaging[0]?.message?.text;
 
-    if (
-      body.object === "page" &&
-      body.entry &&
-      body.entry.length > 0 &&
-      body.entry[0].messaging
-    ) {
-      await body.entry.forEach(async (entry) => {
-        await entry.messaging.forEach(async (event) => {
-          if (event.message) {
-            const senderId = event.sender.id;
-            const messageText = event.message.text;
-
-            const payload = {
-              sender: {
-                id: senderId,
-              },
-              message: messageText,
-            };
-            await sendToConnection(payload);
-          }
-        });
+      const newMessage = new Message({
+        clientId: senderId,
+        senderId: senderId,
+        pageId: pageId,
+        message: message,
       });
-    }
 
-    console.log("WEBHOOK CALLED");
+      const savedMessage = await newMessage.save();
+
+      const sentMessage = await sendToConnection(senderId, pageId, message)
+        .then((res) => {
+          console.log("Message sent");
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("Message sending failed");
+        });
+    }
     return sendResponse({
       message: "success!",
     });

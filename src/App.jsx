@@ -92,15 +92,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/helpdesk"
-            element={
-              <CustomRoute
-                element={<Helpdesk />}
-                visibleToUnauthenticatedUser={false}
-              />
-            }
-          >
+          <Route path="/helpdesk" element={<Helpdesk />}>
             <Route index element={<ChatPortal />} />
             <Route path="manage-page" element={<ManagePage />} />
             <Route path="*" element={<ChatPortal />} />
