@@ -14,11 +14,19 @@ const gatewayClient = new AWS.ApiGatewayManagementApi({
 const sendToConnection = async (senderId, pageId, message) => {
   try {
     const db = await connectToDatabase();
-    const data = await Connections.find({ pageId: pageId }).sort({
-      created_at: -1,
-    });
 
-    const payload = { senderId, pageId, message, created_at: Date.now() };
+    const data = await Connections.aggregate([
+      { $match: { pageId: pageId } },
+      { $sort: { created_at: -1 } },
+      { $limit: 1 },
+    ]);
+    const payload = {
+      action: "message",
+      senderId,
+      pageId,
+      message,
+      created_at: Date.now(),
+    };
     const connection = data[0];
     const connectionId = connection?.connectionId;
     console.log(connection);

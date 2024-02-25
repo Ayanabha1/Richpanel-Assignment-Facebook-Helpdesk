@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState, version } from "react";
 import { Menu, RotateCw, SendHorizontal, ChevronDown } from "lucide-react";
 
 import { Api, GraphApi } from "../Api/Axios";
-import { getDate, getDuration, getTime, showError } from "../lib/utils";
+import {
+  getDate,
+  getDuration,
+  getTime,
+  showError,
+  showSuccess,
+} from "../lib/utils";
 import { useLoader } from "../hooks/loader";
 import CustomerInformation from "./CustomerInformation";
 import ChatCustomers from "./ChatCustomers";
@@ -42,15 +48,10 @@ const ChatPortal = () => {
     }
   };
 
-  const getLatestChatsValue = () => {
-    const __chats = chats;
-    return __chats;
-  };
-
   const updateChat = async (clientId, senderId, message) => {
     let chatExists = false;
     const updatedChats = chats?.map((c) => {
-      if (c.clientId === clientId) {
+      if (c?.clientId === clientId) {
         chatExists = true;
         const updatedChat = {
           ...c,
@@ -63,7 +64,8 @@ const ChatPortal = () => {
             },
           ],
         };
-        if (updatedChat.clientId === selectedChat?.clientId) {
+        console.log(updatedChat);
+        if (updatedChat?.clientId === selectedChat?.clientId) {
           setSelectedChat(updatedChat);
         }
         return updatedChat;
@@ -128,8 +130,12 @@ const ChatPortal = () => {
   // Functions for socket connection and handling receive message
 
   const joinChat = (pageId) => {
-    const payload = { action: "join-chat", pageId: pageId };
-    socketRef.current.send(JSON.stringify(payload));
+    try {
+      const payload = { action: "join-chat", pageId: pageId };
+      socketRef.current.send(JSON.stringify(payload));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleReceiveMessage = (payload) => {
@@ -139,6 +145,13 @@ const ChatPortal = () => {
     }
     const { senderId, pageId, message, created_at } = payload;
     updateChat(senderId, senderId, message);
+  };
+
+  const handleInitConfirmation = (payload) => {
+    loader.setLoading(false);
+    if (payload.status === 400) {
+      showError(payload?.message);
+    }
   };
 
   const initSocket = () => {
@@ -151,6 +164,7 @@ const ChatPortal = () => {
       socketRef.current = new WebSocket(ENDPOINT);
       socketRef.current.onopen = () => {
         joinChat(pageId);
+        loader.setLoading(true);
       };
     }
   };
@@ -158,8 +172,11 @@ const ChatPortal = () => {
   if (socketRef.current) {
     socketRef.current.onmessage = (res) => {
       const payload = JSON.parse(res.data);
-      handleReceiveMessage(payload);
-      const __chats = getLatestChatsValue();
+      if (payload?.action === "message") {
+        handleReceiveMessage(payload);
+      } else if (payload?.action === "socket-init-confirmation") {
+        handleInitConfirmation(payload);
+      }
     };
   }
 

@@ -48,14 +48,14 @@ functions:
   # Handlers for facebook api calls and webhooks
 
   receiveMessage:
-    handler: src/Handlers/FacebookApiHandlers/receivemessageWebhook.handler
+    handler: src/Handlers/FacebookApiHandlers/receiveMessageWebhook.handler
     events:
       - httpApi:
           path: /webhook/receiveMessage
           method: POST
 
   receiveMessageCheck:
-    handler: src/Handlers/FacebookApiHandlers/receivemessageWebhookCheck.handler
+    handler: src/Handlers/FacebookApiHandlers/receiveMessageWebhookCheck.handler
     events:
       - httpApi:
           path: /webhook/receiveMessage

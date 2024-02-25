@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/auth";
 
 const Helpdesk = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
   useEffect(() => {
     document.title = "Helpdesk - Richpanel Assessment";
     const pageDetails = localStorage.getItem("FB_PAGE_DETAILS");
@@ -16,7 +18,17 @@ const Helpdesk = () => {
         navigate("/connect-page");
       }
     }
-  }, []);
+
+    const timeoutId = setTimeout(() => {
+      if (!auth.isLoggedIn) {
+        navigate("/connect-page");
+      }
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [auth]);
 
   return (
     <div className="flex h-[100vh] w-[100vw]">
