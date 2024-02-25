@@ -12,12 +12,13 @@ dist
 dist-ssr
 *.local
 backend/.serverless
-**/.env
-**/.env.*
-.env*
-.env.*
-backend/.env*
+backend/.env
+backend/.env.development
+backend/.env.production
 
+.env
+.env.development
+.env.production
 
 # Editor directories and files
 .vscode/*
