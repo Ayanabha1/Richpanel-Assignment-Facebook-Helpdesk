@@ -8,6 +8,9 @@ Live link: [www.richpanelassessment.ayanabha.xyz](https://www.richpanelassessmen
 
 ## 📹 Demo video
 
+Demo video link: [Click here to watch the demo](https://drive.google.com/file/d/1ixcFvFHSHsq8-tvjZFUlNShPiuhHi8vw/view?usp=drive_link)
+
+
 ## 📖 Overview
 
 This project is a prototype of a Facebook helpdesk that can be integrated with any Facebook page. Users can engage in chat directly from the web application with Facebook users, and they can also see the sent messages in the facebook messanger. All messages sent and received through this web app are stored in a database, enabling the Facebook page owner to track conversations later in a unified platform.
@@ -25,11 +28,11 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
 
   - Create a file .env in Backend folder -> Copy content from Backend/.env.example and enter your values
 
-    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/a5f8d971-6a6b-4da6-a080-96fcce082efd)
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/3ffb8cde-660c-41c9-9e3e-366d5e918238)
 
   - Create a file .env or .env in root folder -> Copy content from .env.example and enter your values
 
-    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/4ebb704a-9285-40a9-80f1-cf1e68f848f5)
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/602d74e7-5446-4c60-b732-97a62ed1ac5f)
 
 - Create a Facebook app in facebook developer console
 
@@ -45,32 +48,32 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
 
   Copy this **App Id** and paste it in **.env** in the root folder in `VITE_FACEBOOK_APP_ID`
 
-## Setup Facebook Login Configuration
+ ## Setup Facebook Login Configuration
 
-- Facebook login requires a `https` redirect uri, so we will use `Ngrok` for that. Ngrok will map a free https domain to out localhost
+  - Facebook login requires a `https` redirect uri, so we will use `Ngrok` for that. Ngrok will map a free https domain to out localhost
 
-  - Open a terminal and type `ngrok http 8000` [ Our frontend is going to run on localhost port 8000 ]
+    - Open a terminal and type `ngrok http 8000` [ Our frontend is going to run on localhost port 8000 ]
 
-    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/14196c2b-1946-479f-b7c8-981427fcd2b4)
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/14196c2b-1946-479f-b7c8-981427fcd2b4)
 
-- Configure **Facebook Login** settings in **Facebook developer console**
+  - Configure **Facebook Login** settings in **Facebook developer console**
 
-  - Click on `Facebook Login for Business`
+    - Click on `Facebook Login for Business`
 
-    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/0f07c818-55d3-4d9a-8393-eefa2a2b1067)
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/0f07c818-55d3-4d9a-8393-eefa2a2b1067)
 
-  - Switch to `Facebook Login`
+    - Switch to `Facebook Login`
 
-    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/c7ce335f-885e-4985-bb00-375927d23b06)
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/c7ce335f-885e-4985-bb00-375927d23b06)
 
-  - Paste Ngrok public url in `Valid OAuth Redirect URIs` and `Allowed Domains for the JavaScript SDK` and toggle `Login with the JavaScript SDK` to YES
+    - Paste Ngrok public url in `Valid OAuth Redirect URIs` and `Allowed Domains for the JavaScript SDK` and toggle `Login with the JavaScript SDK` to YES
 
-    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/a543c098-d750-4b4d-afd3-2c9406845ab3)
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/a543c098-d750-4b4d-afd3-2c9406845ab3)
 
-- Encode the **Ngrok** public url and paste it in .env `VITE_PUBLIC_URL_ENCODED`
+  - Encode the **Ngrok** public url and paste it in .env `VITE_PUBLIC_URL_ENCODED`
 
-  Use https://www.urlencoder.org/
-  ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/be417e9d-4aa5-4cb7-af67-2012e13701e6)
+    Use https://www.urlencoder.org/
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/be417e9d-4aa5-4cb7-af67-2012e13701e6)
 
 - Configure **Webhook Settings** in **Facebook developer console**
 
@@ -103,6 +106,8 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
 - And we are done. Just one last step.
   - Go to your project root folder, open a terminal and type `docker compose up`
     ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/34bb9d63-ed46-41e5-a58d-1668083f799d)
+
+
 
 ## 📧 Contact
 
