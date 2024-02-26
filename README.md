@@ -10,7 +10,6 @@ Live link: [www.richpanelassessment.ayanabha.xyz](https://www.richpanelassessmen
 
 Demo video link: [Click here to watch the demo](https://drive.google.com/file/d/1ixcFvFHSHsq8-tvjZFUlNShPiuhHi8vw/view?usp=drive_link)
 
-
 ## 📖 Overview
 
 This project is a prototype of a Facebook helpdesk that can be integrated with any Facebook page. Users can engage in chat directly from the web application with Facebook users, and they can also see the sent messages in the facebook messanger. All messages sent and received through this web app are stored in a database, enabling the Facebook page owner to track conversations later in a unified platform.
@@ -48,7 +47,7 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
 
   Copy this **App Id** and paste it in **.env** in the root folder in `VITE_FACEBOOK_APP_ID`
 
- ## Setup Facebook Login Configuration
+- **Setup Facebook Login Configuration**
 
   - Facebook login requires a `https` redirect uri, so we will use `Ngrok` for that. Ngrok will map a free https domain to out localhost
 
@@ -107,7 +106,16 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
   - Go to your project root folder, open a terminal and type `docker compose up`
     ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/34bb9d63-ed46-41e5-a58d-1668083f799d)
 
+## 📃 Flow
 
+Receiving messages from facebook
+![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/7ee0d988-d885-44f7-a038-972a2d962577)
+
+Sending messages to facebook
+![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/096566ed-c181-4d67-8cf3-70024ca29739)
+
+Getting all previous messages on load
+![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/309f4ad0-9436-4927-bcd7-88705249fcb0)
 
 ## 📧 Contact
 
