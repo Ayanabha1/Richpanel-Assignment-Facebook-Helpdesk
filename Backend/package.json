@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "serverless offline --noTimeout",
+    "start": "serverless offline --noTimeout --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "serverless deploy"
   },
