@@ -1,5 +1,7 @@
 # Richpanel Assignment Facebook Helpdesk - Ayanabha Misra
 
+> Disclaimer: The connection to facebook page functionality as well as chatting with facebook user only works with the account that is associated with the Facebook App (in the developer console). So please create your own Facebook App at https://developers.facebook.com/ and enter the App id in `VITE_FACEBOOK_APP_ID` in .env (in the root folder) file.
+
 ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/a0a57f82-6d8e-4662-999b-ea4919f7a2cd)
 
 ## 🔗 Link
