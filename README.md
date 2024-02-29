@@ -63,13 +63,24 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
 
       ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/0f07c818-55d3-4d9a-8393-eefa2a2b1067)
 
-    - Switch to `Facebook Login`
-
-      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/c7ce335f-885e-4985-bb00-375927d23b06)
-
     - Paste Ngrok public url in `Valid OAuth Redirect URIs` and `Allowed Domains for the JavaScript SDK` and toggle `Login with the JavaScript SDK` to YES
 
       ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/a543c098-d750-4b4d-afd3-2c9406845ab3)
+
+    - Setup login configurations
+
+      Click at Configurations under **Facebook Login for Business**
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/678acf2a-fd45-47a5-a581-4009e3d2767d)
+
+      Create configuration
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/961998c0-3367-443d-b14d-7ab8c76d4d05)
+
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/d5cf6064-dad4-495c-87c0-b011d6876076)
+
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/2a82c206-a787-479f-81ef-acbce4798930)
+
+      Permissions required: `pages_messaging, pages_show_list, pages_manage_posts, pages_read_user_content`
+      ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/b238777a-a195-4d4a-b3f7-d8ff9e4c493e)
 
   - Encode the **Ngrok** public url and paste it in .env `VITE_PUBLIC_URL_ENCODED`
 
@@ -97,6 +108,21 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
   - Subscribe to **messages** event in Webhook fields
 
     ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/ca726a82-5256-40f2-981a-b69c7fe17fac)
+
+  - Webhook subscription
+
+    Add page  
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/9c5e55ff-1de4-42af-840d-a430c8d309c6)
+
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/4b14aa11-3188-4453-bcb0-0abc4ccb5c65)
+
+    Add Subscription (Subscribe to **messages**)
+
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/931e7a56-da72-4d23-8492-d58529f183a1)
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/c52c2fa2-466c-4cc1-ab7b-bdeb51ec2f44)
+
+    Finally it should look something like this  
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/30f68ebe-1d3e-41b1-b92a-77f269f995ad)
 
 - Configure **AWS Credentials**
 
