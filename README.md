@@ -98,6 +98,20 @@ This project is a prototype of a Facebook helpdesk that can be integrated with a
 
     ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/ca726a82-5256-40f2-981a-b69c7fe17fac)
 
+  - Webhook subscription
+ 
+    Add page  
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/9c5e55ff-1de4-42af-840d-a430c8d309c6)
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/1df6a087-eccf-463b-a276-82cfb9dd881d)
+ 
+    Add Subscription (Subscribe to **messages**)  
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/931e7a56-da72-4d23-8492-d58529f183a1)
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/c52c2fa2-466c-4cc1-ab7b-bdeb51ec2f44)
+ 
+    Finally it should look something like this  
+    ![image](https://github.com/Ayanabha1/Richpanel-Assignment-Facebook-Helpdesk/assets/63809278/30f68ebe-1d3e-41b1-b92a-77f269f995ad)
+
+  
 - Configure **AWS Credentials**
 
   - Create a new AWS IAM User and paste the access key and secret key in `Backend/.env` in `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` respectively.
