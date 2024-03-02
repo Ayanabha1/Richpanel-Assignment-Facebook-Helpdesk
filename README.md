@@ -10,7 +10,7 @@ Live link: [www.richpanelassessment.ayanabha.xyz](https://www.richpanelassessmen
 
 ## 📹 Demo video
 
-Demo video link: [Click here to watch the demo](https://drive.google.com/file/d/1ixcFvFHSHsq8-tvjZFUlNShPiuhHi8vw/view?usp=drive_link)
+Demo video link: [Click here to watch the demo](https://drive.google.com/file/d/1ixcFvFHSHsq8-tvjZFUlNShPiuhHi8vw/view?usp=drive_link)  
 Facebook developer console setup: [Click here to watch the setup](https://drive.google.com/file/d/1kLmzUFys6yFOVFZnzdwEBFzVqwayFylJ/view?usp=sharing)
 
 ## 📖 Overview
